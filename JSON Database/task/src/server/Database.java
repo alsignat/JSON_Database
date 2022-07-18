@@ -5,23 +5,33 @@ public class Database {
     private String[] database;
 
     Database(int capacity) {
-        this.database = new String[100];
+        this.database = new String[capacity];
     }
 
-    public void set(int index, String value) {
-        this.database[index] = value;
-        System.out.println("OK");
+    public String set(int index, String value) {
+        String answer = "ERROR";
+        if (index < database.length) {
+            this.database[index] = value;
+            answer = "OK";
+        }
+        return answer;
     }
 
-    public void get(int index) {
-        String value = database[index];
-        if (value == null) throw new NullPointerException();
-        System.out.println(value);
+    public String get(int index) {
+        String answer = "ERROR";
+        if (index < database.length) {
+            answer = database[index];
+        }
+        return answer;
     }
 
-    public void delete(int index) {
-        database[index] = null;
-        System.out.println("OK");
+    public String delete(int index) {
+        String answer = "ERROR";
+        if (index < database.length) {
+            database[index] = null;
+            answer = "OK";
+        }
+        return answer;
     }
 
 }
