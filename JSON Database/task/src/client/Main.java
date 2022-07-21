@@ -19,8 +19,7 @@ public class Main {
         try (Socket socket = new Socket(InetAddress.getByName(address), port);
              DataInputStream input = new DataInputStream(socket.getInputStream());
              DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
-        String greeting = input.readUTF();
-        System.out.println(greeting);
+        System.out.println("Client started!");
         String request = cli.getCLI();
         System.out.println("Sent: " + request);
         output.writeUTF(request);

@@ -1,37 +1,52 @@
 package server;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+
 public class Database {
 
-    private String[] database;
+    private final HashMap<String, String> database;
+    private final Gson gson;
 
-    Database(int capacity) {
-        this.database = new String[capacity];
+    Database() {
+        this.database = new HashMap<>();
+        this.gson = new Gson();
     }
 
-    public String set(int index, String value) {
-        String answer = "ERROR";
-        if (index < database.length) {
-            this.database[index] = value;
-            answer = "OK";
-        }
-        return answer;
+    public String set(String key, String value) {
+        database.put(key, value);
+        return getResponse(null);
     }
 
-    public String get(int index) {
-        String answer = "ERROR";
-        if (index < database.length) {
-            answer = database[index];
-        }
-        return answer;
+    public String get(String key) {
+        String value = database.get(key);
+        return value == null ? noSuchElementResponse() : getResponse(value);
     }
 
-    public String delete(int index) {
-        String answer = "ERROR";
-        if (index < database.length) {
-            database[index] = null;
-            answer = "OK";
+    public String delete(String key) {
+        String value = database.get(key);
+        if (value != null) {
+            database.remove(key);
+            return getResponse(null);
+        } return noSuchElementResponse();
+    }
+
+    private String noSuchElementResponse() {
+        JsonObject answer = new JsonObject();
+        answer.addProperty("response", "ERROR");
+        answer.addProperty("reason", "No such key");
+        return gson.toJson(answer);
+    }
+
+    private String getResponse(String value) {
+        JsonObject answer = new JsonObject();
+        answer.addProperty("response", "OK");
+        if (value != null) {
+            answer.addProperty("value", value);
         }
-        return answer;
+        return gson.toJson(answer);
     }
 
 }
