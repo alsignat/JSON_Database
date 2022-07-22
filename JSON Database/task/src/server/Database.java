@@ -22,7 +22,7 @@ public class Database {
 
     public String get(String key) {
         String value = database.get(key);
-        return value == null ? noSuchElementResponse() : getResponse(value);
+        return (value == null ? noSuchElementResponse() : getResponse(value));
     }
 
     public String delete(String key) {
@@ -47,6 +47,10 @@ public class Database {
             answer.addProperty("value", value);
         }
         return gson.toJson(answer);
+    }
+
+    public Gson getGson() {
+        return this.gson;
     }
 
 }
